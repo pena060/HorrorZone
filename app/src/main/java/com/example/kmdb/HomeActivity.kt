@@ -18,7 +18,7 @@ class HomeActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homeactivitylayout)
-        val rv : RecyclerView = findViewById(R.id.rv_movielist)
+        val rv : RecyclerView = findViewById(R.id.rv_top_rated)
         rv.layoutManager = lManager
         rv.setHasFixedSize(true)
         getMovies { movies: List<Movie> -> rv.adapter = Adapter(movies)}
