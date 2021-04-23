@@ -6,8 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 //this class will parse through the movies got from query and independently get their information
-@Parcelize
-data class   Movie(
+data class Movie(
     @SerializedName("id")
     val id : String ?,
     @SerializedName("title")
@@ -16,9 +15,4 @@ data class   Movie(
     val poster_path : String ?,
     @SerializedName("release_date")
     val release_date : String ?
-
-
-
-) : Parcelable{
-    constructor(): this("","","","")
-}
+)

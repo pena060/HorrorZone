@@ -6,11 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 
 //class will parse through the response given to the query using the TMDB API and save movies into a list
-@Parcelize
 data class MovieQueryResponse(
-    @SerializedName("results")
-    val movies : List<Movie>
-
-) : Parcelable{
-    constructor() : this(mutableListOf())
-}
+    @SerializedName("results") val movies: List<Movie>,
+    @SerializedName("page") val page: Int,
+    @SerializedName("total_pages") val pages: Int,
+    )

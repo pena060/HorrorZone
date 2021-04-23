@@ -1,72 +1,71 @@
 package com.example.kmdb
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kmdb.API.MakeQueryToTMDB
-import com.example.kmdb.API.MovieAPIService
+import com.example.kmdb.API.HorrorMovieRepository
+import com.example.kmdb.Adapter.HorrorMoviesAdapter
 import com.example.kmdb.models.Movie
-import com.example.kmdb.models.MovieQueryResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 //this activity displays the main homepage for the app displaying horror movies as a list
 class HomeActivity : AppCompatActivity(){
-    var lManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-    //var lManager2 = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    private lateinit var  NowPlayingMovies : RecyclerView
+    private lateinit var  NowPlayingMoviesAdapter : HorrorMoviesAdapter
+    private lateinit var NPlayoutManager: LinearLayoutManager
+    private var NPpage = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homeactivitylayout)
 
 
+        NowPlayingMovies = findViewById(R.id.rv_now_playing)
+       NPlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        val rv : RecyclerView = findViewById(R.id.rv_top_rated)
-
-        rv.layoutManager = lManager
-        rv.setHasFixedSize(true)
-        getNowPlayingMovies { movies: List<Movie> -> rv.adapter = Adapter(movies)}
+        NowPlayingMovies.layoutManager = NPlayoutManager
 
 
+        NowPlayingMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        NowPlayingMovies.adapter = NowPlayingMoviesAdapter
+
+        getNPMovies()
 
     }
-    //get the movies from the query results
-    private fun getMovies(callback: (List<Movie>) -> Unit){
-        val apiService = MovieAPIService.getInstance().create(MakeQueryToTMDB::class.java)
-        apiService.getTopMovies().enqueue(object : Callback<MovieQueryResponse> {
-            override fun onResponse(
-                call: Call<MovieQueryResponse>,
-                response: Response<MovieQueryResponse>
-            ) {
-                return callback(response.body()!!.movies)
+
+    //get fetched movies
+    private fun onNowPlayingFetched(movies: List<Movie>){
+        NowPlayingMoviesAdapter.getHorrorMovies(movies)
+        appendNPMoviesToScrollListener()
+    }
+
+    //handle errors
+    private fun onError(){
+        Toast.makeText(this, getString(R.string.error_fetch_movies), Toast.LENGTH_SHORT).show()
+    }
+
+
+    private fun getNPMovies(){
+        HorrorMovieRepository.getNowPlayingMovies(NPpage, :: onNowPlayingFetched, :: onError)
+    }
+
+    //adds now playing movies to scroll listener
+    private fun appendNPMoviesToScrollListener(){
+        NowPlayingMovies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val maxItemsAmount = NPlayoutManager.itemCount
+                val amountItemsOnScreen = NPlayoutManager.childCount
+                val firstItem = NPlayoutManager.findFirstVisibleItemPosition()
+
+                if(firstItem + amountItemsOnScreen >= maxItemsAmount / 2){
+                    NowPlayingMovies.removeOnScrollListener(this)
+                    NPpage++
+                    getNPMovies()
+                }
             }
-
-            override fun onFailure(call: Call<MovieQueryResponse>, t: Throwable) {
-
-            }
-
         })
-
     }
-
-    private fun getNowPlayingMovies(callback: (List<Movie>) -> Unit){
-        val apiService = MovieAPIService.getInstance().create(MakeQueryToTMDB::class.java)
-        apiService.getNowPlayingMovies().enqueue(object : Callback<MovieQueryResponse> {
-            override fun onResponse(
-                    call: Call<MovieQueryResponse>,
-                    response: Response<MovieQueryResponse>
-            ) {
-                return callback(response.body()!!.movies)
-            }
-
-            override fun onFailure(call: Call<MovieQueryResponse>, t: Throwable) {
-
-            }
-
-        })
-
-    }
-
 
 }
