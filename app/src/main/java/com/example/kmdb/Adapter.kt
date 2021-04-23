@@ -3,14 +3,13 @@ package com.example.kmdb
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.models.Movie
 import kotlinx.android.synthetic.main.display_movie_main.view.*
 
+//this is the adapter for the recyler views that will house different movies based on different filters
 class Adapter (
     private val movies : List<Movie>
     ) : RecyclerView.Adapter<Adapter.MovieViewHolder>(){
