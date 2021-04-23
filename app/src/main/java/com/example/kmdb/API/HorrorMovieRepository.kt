@@ -23,7 +23,7 @@ object HorrorMovieRepository {
         makeQueryToTMDB = retrofit.create(MakeQueryToTMDB::class.java)
     }
 
-
+    //get now playing movies from repository
     fun getNowPlayingMovies(page: Int = 1,
                             onSuccess: (movies: List<Movie>) -> Unit,
                             onError: () -> Unit){
@@ -53,5 +53,69 @@ object HorrorMovieRepository {
                 }
 
             })
+    }
+
+    //get now playing movies from repository
+    fun getUpcomingMovies(page: Int = 1,
+                            onSuccess: (movies: List<Movie>) -> Unit,
+                            onError: () -> Unit){
+
+        makeQueryToTMDB.getUpcomingMovies(page = page)
+                .enqueue(object : Callback<MovieQueryResponse> {
+                    override fun onResponse(
+                            call: Call<MovieQueryResponse>,
+                            response: Response<MovieQueryResponse>
+                    ) {
+                        if (response.isSuccessful){
+                            val responseBody = response.body()
+
+                            if(responseBody != null){
+                                onSuccess.invoke(responseBody.movies)
+                            }else{
+                                onError.invoke()
+                            }
+                        }else{
+                            onError.invoke()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MovieQueryResponse>, t: Throwable) {
+                        onError.invoke()
+
+                    }
+
+                })
+    }
+
+    //get top rated movies from repository
+    fun getTopRatedMovies(page: Int = 1,
+                            onSuccess: (movies: List<Movie>) -> Unit,
+                            onError: () -> Unit){
+
+        makeQueryToTMDB.getTopRatedMovies(page = page)
+                .enqueue(object : Callback<MovieQueryResponse> {
+                    override fun onResponse(
+                            call: Call<MovieQueryResponse>,
+                            response: Response<MovieQueryResponse>
+                    ) {
+                        if (response.isSuccessful){
+                            val responseBody = response.body()
+
+                            if(responseBody != null){
+                                onSuccess.invoke(responseBody.movies)
+                            }else{
+                                onError.invoke()
+                            }
+                        }else{
+                            onError.invoke()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MovieQueryResponse>, t: Throwable) {
+                        onError.invoke()
+
+                    }
+
+                })
     }
 }

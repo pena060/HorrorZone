@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 
-//class will parse through the response given to the query using the TMDB API and save movies into a list
+//class will get the results which will be parsed into a list, thecurrent page of that list and the total pages
 data class MovieQueryResponse(
     @SerializedName("results") val movies: List<Movie>,
     @SerializedName("page") val page: Int,

@@ -28,11 +28,14 @@ class HorrorMoviesAdapter (
     override fun onBindViewHolder(holder: HorrorMoviesAdapter.MovieViewHolder, position: Int) {
         holder.bindMoviesToAdapter(movies[position])
     }
+
     //will be used to get movies into the recycler view using adapter in the home activity
     fun getHorrorMovies(movies: List<Movie>){
         this.movies.addAll(movies)
         notifyItemRangeInserted(this.movies.size, movies.size - 1)
     }
+
+
 
     //this class will be used to display info needed for each movie in the home activity
     inner class MovieViewHolder(item: View) : RecyclerView.ViewHolder(item){
