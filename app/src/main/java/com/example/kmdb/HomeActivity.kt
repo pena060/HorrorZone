@@ -20,7 +20,7 @@ import retrofit2.http.Query
 
 
 //this activity displays the main homepage for the app displaying horror movies as a list
-class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
+class HomeActivity : AppCompatActivity(){
     //variables used for Now Playing recycler view
     private lateinit var  NowPlayingMovies : RecyclerView
     private lateinit var  NowPlayingMoviesAdapter : HorrorMoviesAdapter
@@ -207,35 +207,4 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
             }
         })
     }
-
-    //-------------------------------------------------------------------------------------
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-
-        val search = menu?.findItem(R.id.app_bar_movie_search)
-        val searchView = search?.actionView as SearchView
-        searchView.isSubmitButtonEnabled = true
-        searchView.setOnQueryTextListener(this)
-        return true
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if(query != null){
-            searchMovieDatabase(query)
-        }
-        return true
-    }
-
-    override fun onQueryTextChange(query: String?): Boolean {
-        if(query != null){
-            searchMovieDatabase(query)
-        }
-        return true
-    }
-
-    private fun searchMovieDatabase(query : String){
-        val searchQuery = "%$query%"
-    }
-
-//---------------------------------------------------------------------------------------------
 }
