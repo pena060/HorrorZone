@@ -31,4 +31,10 @@ interface MakeQueryToTMDB {
             @Query ("page") page : Int
     ): Call<MovieQueryResponse>
 
+    //Query for Popular Movies
+    @GET("movie/popular?with_genres=27")
+    fun getPopularMovies(
+            @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f",
+            @Query ("page") page : Int
+    ): Call<MovieQueryResponse>
 }

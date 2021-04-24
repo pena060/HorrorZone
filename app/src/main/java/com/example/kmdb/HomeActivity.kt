@@ -1,22 +1,38 @@
 package com.example.kmdb
 
 import android.os.Bundle
+import android.view.Menu
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kmdb.API.HorrorMovieRepository
+import com.example.kmdb.API.MakeQueryToTMDB
 import com.example.kmdb.Adapter.HorrorMoviesAdapter
 import com.example.kmdb.models.Movie
+import com.example.kmdb.models.MovieQueryResponse
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 //this activity displays the main homepage for the app displaying horror movies as a list
-class HomeActivity : AppCompatActivity(){
+class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     //variables used for Now Playing recycler view
     private lateinit var  NowPlayingMovies : RecyclerView
     private lateinit var  NowPlayingMoviesAdapter : HorrorMoviesAdapter
     private lateinit var NPlayoutManager: LinearLayoutManager
     private var NPpage = 1
+
+    //variables used for Popular Movies recycler view
+    private lateinit var  PopularMovies : RecyclerView
+    private lateinit var  PopularMoviesAdapter : HorrorMoviesAdapter
+    private lateinit var PMlayoutManager: LinearLayoutManager
+    private var PMpage = 1
+
 
     //variables used for Top Rated recycler view
     private lateinit var  TopRatedgMovies : RecyclerView
@@ -43,6 +59,16 @@ class HomeActivity : AppCompatActivity(){
 
         //get Now Playing function
         getNPMovies()
+
+        //LayoutManager/Adapter for Popular recycler view
+        PopularMovies = findViewById(R.id.rv_popular_horror)
+        PMlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        PopularMovies.layoutManager = PMlayoutManager
+        PopularMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        PopularMovies.adapter = PopularMoviesAdapter
+
+        //get Popular function
+        getPMMovies()
 
         //LayoutManager/Adapter for Top Rated recycler view
         TopRatedgMovies = findViewById(R.id.rv_top_rated)
@@ -72,6 +98,12 @@ class HomeActivity : AppCompatActivity(){
         appendNPMoviesToScrollListener()
     }
 
+    //get Popular fetched movies
+    private fun onPopularFetched(movies: List<Movie>){
+        PopularMoviesAdapter.getHorrorMovies(movies)
+        appendNPMoviesToScrollListener()
+    }
+
     //get Top Rated fetched movies
     private fun onTopRatedFetched(movies: List<Movie>){
         TopRatedMoviesAdapter.getHorrorMovies(movies)
@@ -95,11 +127,16 @@ class HomeActivity : AppCompatActivity(){
     }
     //get top rated movies from repository object
     private fun getTPMovies(){
-        HorrorMovieRepository.getTopRatedMovies(NPpage, :: onTopRatedFetched, :: onError)
+        HorrorMovieRepository.getTopRatedMovies(TPpage, :: onTopRatedFetched, :: onError)
     }
     //get Upcoming movies from repository object
     private fun getUMovies(){
-        HorrorMovieRepository.getUpcomingMovies(NPpage, :: onUpcomingFetched, :: onError)
+        HorrorMovieRepository.getUpcomingMovies(Upage, :: onUpcomingFetched, :: onError)
+    }
+
+    //get Upcoming movies from repository object
+    private fun getPMMovies(){
+        HorrorMovieRepository.getPopularMovies(PMpage, :: onPopularFetched, :: onError)
     }
 
     //adds now playing movies to scroll listener
@@ -118,6 +155,24 @@ class HomeActivity : AppCompatActivity(){
             }
         })
     }
+
+    //adds now playing movies to scroll listener
+    private fun appendPMMoviesToScrollListener(){
+        PopularMovies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val maxItemsAmount = PMlayoutManager.itemCount
+                val amountItemsOnScreen = PMlayoutManager.childCount
+                val firstItem = PMlayoutManager.findFirstVisibleItemPosition()
+
+                if(firstItem + amountItemsOnScreen >= maxItemsAmount / 2){
+                    PopularMovies.removeOnScrollListener(this)
+                    PMpage++
+                    getPMMovies()
+                }
+            }
+        })
+    }
+
 
     //adds now playing movies to scroll listener
     private fun appendTPMoviesToScrollListener(){
@@ -153,4 +208,34 @@ class HomeActivity : AppCompatActivity(){
         })
     }
 
+    //-------------------------------------------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val search = menu?.findItem(R.id.app_bar_movie_search)
+        val searchView = search?.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null){
+            searchMovieDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if(query != null){
+            searchMovieDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchMovieDatabase(query : String){
+        val searchQuery = "%$query%"
+    }
+
+//---------------------------------------------------------------------------------------------
 }

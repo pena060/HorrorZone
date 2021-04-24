@@ -46,8 +46,8 @@ class HorrorMoviesAdapter (
                 .load("https://image.tmdb.org/t/p/w342${movie.poster_path}")
                 .transform(CenterCrop())
                 .into(poster)
-            itemView.movie_title.text = movie.title
-            itemView.release.text = movie.release_date
+         /*   itemView.movie_title.text = movie.title
+            itemView.release.text = movie.release_date*/
 
         }
     }
