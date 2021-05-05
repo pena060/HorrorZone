@@ -11,9 +11,10 @@ import com.example.kmdb.R
 import com.example.kmdb.models.Movie
 import kotlinx.android.synthetic.main.display_movie_main.view.*
 
-//adapter for the recyl;cer view which will display movies in the home activity
+//adapter for the recycler view which will display movies in the home activity and recommended movies in the movies details activity
 class HorrorMoviesAdapter (
-    private var movies: MutableList<Movie>
+    private var movies: MutableList<Movie>,
+    private val movieClicked: (movie : Movie) -> Unit
         ) : RecyclerView.Adapter<HorrorMoviesAdapter.MovieViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,9 +47,8 @@ class HorrorMoviesAdapter (
                 .load("https://image.tmdb.org/t/p/w342${movie.poster_path}")
                 .transform(CenterCrop())
                 .into(poster)
-         /*   itemView.movie_title.text = movie.title
-            itemView.release.text = movie.release_date*/
-
+            //invoke model class movie when movie poster is clicked
+            itemView.setOnClickListener { movieClicked.invoke(movie) }
         }
     }
     //amount of results that will be displayed

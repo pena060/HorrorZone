@@ -1,13 +1,14 @@
-package com.example.kmdb.API
+package com.example.kmdb.Repos
 
-import android.util.Log
+import com.example.kmdb.API.MakeQueryToTMDB
+import com.example.kmdb.MovieDetailsCode.movieId
 import com.example.kmdb.models.Movie
 import com.example.kmdb.models.MovieQueryResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import com.example.kmdb.models.MovieTrailer
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import javax.crypto.Cipher.SECRET_KEY
 
 
 object HorrorMovieRepository {
@@ -24,16 +25,10 @@ object HorrorMovieRepository {
     }
 
     //get now playing movies from repository
-    fun getNowPlayingMovies(page: Int = 1,
-                            onSuccess: (movies: List<Movie>) -> Unit,
-                            onError: () -> Unit){
-
+    fun getNowPlayingMovies(page: Int = 1, onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit){
         makeQueryToTMDB.getNowPlayingMovies(page = page)
             .enqueue(object : Callback<MovieQueryResponse> {
-                override fun onResponse(
-                    call: Call<MovieQueryResponse>,
-                    response: Response<MovieQueryResponse>
-                ) {
+                override fun onResponse(call: Call<MovieQueryResponse>, response: Response<MovieQueryResponse>) {
                     if (response.isSuccessful){
                         val responseBody = response.body()
 
@@ -56,15 +51,10 @@ object HorrorMovieRepository {
     }
 
     //get now playing movies from repository
-    fun getUpcomingMovies(page: Int = 1,
-                            onSuccess: (movies: List<Movie>) -> Unit,
-                            onError: () -> Unit){
-
+    fun getUpcomingMovies(page: Int = 1, onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit){
         makeQueryToTMDB.getUpcomingMovies(page = page)
                 .enqueue(object : Callback<MovieQueryResponse> {
-                    override fun onResponse(
-                            call: Call<MovieQueryResponse>,
-                            response: Response<MovieQueryResponse>
+                    override fun onResponse(call: Call<MovieQueryResponse>, response: Response<MovieQueryResponse>
                     ) {
                         if (response.isSuccessful){
                             val responseBody = response.body()
@@ -88,16 +78,10 @@ object HorrorMovieRepository {
     }
 
     //get popular movies from repository
-    fun getPopularMovies(page: Int = 1,
-                          onSuccess: (movies: List<Movie>) -> Unit,
-                          onError: () -> Unit){
-
+    fun getPopularMovies(page: Int = 1, onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit){
         makeQueryToTMDB.getPopularMovies(page = page)
                 .enqueue(object : Callback<MovieQueryResponse> {
-                    override fun onResponse(
-                            call: Call<MovieQueryResponse>,
-                            response: Response<MovieQueryResponse>
-                    ) {
+                    override fun onResponse(call: Call<MovieQueryResponse>, response: Response<MovieQueryResponse>) {
                         if (response.isSuccessful){
                             val responseBody = response.body()
 
@@ -120,16 +104,10 @@ object HorrorMovieRepository {
     }
 
     //get top rated movies from repository
-    fun getTopRatedMovies(page: Int = 1,
-                            onSuccess: (movies: List<Movie>) -> Unit,
-                            onError: () -> Unit){
-
+    fun getTopRatedMovies(page: Int = 1, onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit){
         makeQueryToTMDB.getTopRatedMovies(page = page)
                 .enqueue(object : Callback<MovieQueryResponse> {
-                    override fun onResponse(
-                            call: Call<MovieQueryResponse>,
-                            response: Response<MovieQueryResponse>
-                    ) {
+                    override fun onResponse(call: Call<MovieQueryResponse>, response: Response<MovieQueryResponse>) {
                         if (response.isSuccessful){
                             val responseBody = response.body()
 
@@ -150,4 +128,5 @@ object HorrorMovieRepository {
 
                 })
     }
+
 }

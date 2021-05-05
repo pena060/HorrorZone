@@ -1,22 +1,16 @@
 package com.example.kmdb
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.widget.SearchView
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kmdb.API.HorrorMovieRepository
-import com.example.kmdb.API.MakeQueryToTMDB
+import com.example.kmdb.Repos.HorrorMovieRepository
 import com.example.kmdb.Adapter.HorrorMoviesAdapter
+import com.example.kmdb.MovieDetailsCode.MovieDetailsDisplay
 import com.example.kmdb.models.Movie
-import com.example.kmdb.models.MovieQueryResponse
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 
 
 //this activity displays the main homepage for the app displaying horror movies as a list
@@ -54,7 +48,7 @@ class HomeActivity : AppCompatActivity(){
         NowPlayingMovies = findViewById(R.id.rv_now_playing)
         NPlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         NowPlayingMovies.layoutManager = NPlayoutManager
-        NowPlayingMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        NowPlayingMoviesAdapter = HorrorMoviesAdapter(mutableListOf()) { movie -> goToMovieDetailsActivity(movie) }
         NowPlayingMovies.adapter = NowPlayingMoviesAdapter
 
         //get Now Playing function
@@ -64,7 +58,7 @@ class HomeActivity : AppCompatActivity(){
         PopularMovies = findViewById(R.id.rv_popular_horror)
         PMlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         PopularMovies.layoutManager = PMlayoutManager
-        PopularMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        PopularMoviesAdapter = HorrorMoviesAdapter(mutableListOf()) { movie -> goToMovieDetailsActivity(movie) }
         PopularMovies.adapter = PopularMoviesAdapter
 
         //get Popular function
@@ -74,7 +68,7 @@ class HomeActivity : AppCompatActivity(){
         TopRatedgMovies = findViewById(R.id.rv_top_rated)
         TPlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         TopRatedgMovies.layoutManager = TPlayoutManager
-        TopRatedMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        TopRatedMoviesAdapter = HorrorMoviesAdapter(mutableListOf()) { movie -> goToMovieDetailsActivity(movie) }
         TopRatedgMovies.adapter = TopRatedMoviesAdapter
 
         //get Top Rated function
@@ -84,7 +78,7 @@ class HomeActivity : AppCompatActivity(){
         UpcomingMovies = findViewById(R.id.rv_upcoming)
         UlayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         UpcomingMovies.layoutManager = UlayoutManager
-        UpcomingMoviesAdapter = HorrorMoviesAdapter(mutableListOf())
+        UpcomingMoviesAdapter = HorrorMoviesAdapter(mutableListOf()) { movie -> goToMovieDetailsActivity(movie) }
         UpcomingMovies.adapter = UpcomingMoviesAdapter
 
         //get Upcoming function
@@ -101,19 +95,23 @@ class HomeActivity : AppCompatActivity(){
     //get Popular fetched movies
     private fun onPopularFetched(movies: List<Movie>){
         PopularMoviesAdapter.getHorrorMovies(movies)
-        appendNPMoviesToScrollListener()
+        appendPMMoviesToScrollListener()
     }
 
     //get Top Rated fetched movies
     private fun onTopRatedFetched(movies: List<Movie>){
         TopRatedMoviesAdapter.getHorrorMovies(movies)
         appendTPMoviesToScrollListener()
+
+        Log.d("MainActivity", "Movies: $movies")
     }
 
     //get Top Rated fetched movies
     private fun onUpcomingFetched(movies: List<Movie>){
         UpcomingMoviesAdapter.getHorrorMovies(movies)
         appendUMoviesToScrollListener()
+
+
     }
 
     //handle errors
@@ -139,6 +137,7 @@ class HomeActivity : AppCompatActivity(){
         HorrorMovieRepository.getPopularMovies(PMpage, :: onPopularFetched, :: onError)
     }
 
+
     //adds now playing movies to scroll listener
     private fun appendNPMoviesToScrollListener(){
         NowPlayingMovies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
@@ -154,6 +153,8 @@ class HomeActivity : AppCompatActivity(){
                 }
             }
         })
+
+
     }
 
     //adds now playing movies to scroll listener
@@ -206,5 +207,12 @@ class HomeActivity : AppCompatActivity(){
                 }
             }
         })
+    }
+
+    //this function sends the user to the MovieDetailsActivity when they tap on a movie poster
+    private fun goToMovieDetailsActivity(movie: Movie){
+        val intent = Intent(this, MovieDetailsDisplay::class.java)
+        intent.putExtra("id", movie.id)
+        this.startActivity(intent)
     }
 }
