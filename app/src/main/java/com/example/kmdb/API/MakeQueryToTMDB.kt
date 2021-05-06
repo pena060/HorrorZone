@@ -1,6 +1,7 @@
 package com.example.kmdb.API
 import com.example.kmdb.MovieDetailsCode.movieId
-import com.example.kmdb.models.CreditsDetails
+import com.example.kmdb.models.CreditsDetailsCast
+import com.example.kmdb.models.CreditsDetailsCrew
 import com.example.kmdb.models.MovieQueryResponse
 import com.example.kmdb.models.SpecificMovieDetail
 import retrofit2.Call
@@ -49,18 +50,27 @@ interface MakeQueryToTMDB {
     ): Single<SpecificMovieDetail>
 
     //get credits info from specific movie
-    @GET("movie/{movie_id}?with_genres=27&append_to_response=credits")
-    fun  getMovieCreditDetails(
-            @Path("movie_id") id: Int
-    ): Single<CreditsDetails>
+    @GET("movie/{movie_id}/credits?with_genres=27&append_to_response=credits")
+    fun  getMovieCastDetails(
+            @Path("movie_id") id: Int,
+            @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f"
+    ): Call<CreditsDetailsCast>
 
-    //search for movies
+    //get credits info from specific movie
+    @GET("movie/{movie_id}/credits?with_genres=27&append_to_response=credits")
+    fun  getMovieCrewDetails(
+            @Path("movie_id") id: Int,
+            @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f"
+    ): Call<CreditsDetailsCrew>
+
+
+/*    //search for movies
     @GET("search/movie?with_genres=27")
     fun  getSearchMovie(
             @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f",
             @Query ("query") query : String,
             @Query ("page") page : Int
-    ): Call<MovieQueryResponse>
+    ): Call<MovieQueryResponse>*/
 
 
 }

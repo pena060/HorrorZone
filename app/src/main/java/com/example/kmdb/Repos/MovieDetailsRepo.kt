@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.kmdb.API.MakeQueryToTMDB
 import com.example.kmdb.Network.CurrentNetworkState
 import com.example.kmdb.Network.MovieDetailsNetworkData
+import com.example.kmdb.models.CreditsDetailsCast
+import com.example.kmdb.models.CreditsDetailsCrew
 import com.example.kmdb.models.Movie
 import com.example.kmdb.models.SpecificMovieDetail
 import io.reactivex.disposables.CompositeDisposable

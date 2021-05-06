@@ -2,6 +2,7 @@ package com.example.kmdb.MovieDetailsCode
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -12,11 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.API.MakeQueryToTMDB
+import com.example.kmdb.Adapter.CastAdapter
+import com.example.kmdb.Adapter.CrewAdapter
 import com.example.kmdb.Adapter.HorrorMoviesAdapter
 import com.example.kmdb.R
+import com.example.kmdb.Repos.HorrorMovieRepository
 import com.example.kmdb.Repos.MovieDetailsRepo
-import com.example.kmdb.models.MovieDetailsViewModel
-import com.example.kmdb.models.SpecificMovieDetail
+import com.example.kmdb.models.*
+import io.reactivex.internal.util.HalfSerializer.onError
 import kotlinx.android.synthetic.main.movie_details.*
 import java.text.NumberFormat
 import java.util.*
@@ -28,6 +32,10 @@ class MovieDetailsDisplay : AppCompatActivity() {
     //initialize a viewmodel and repo that will be used in this activity
     private lateinit var viewModel: MovieDetailsViewModel
     private lateinit var movieRepo : MovieDetailsRepo
+    private lateinit var movieCast: RecyclerView
+    private lateinit var movieCastAdapter: CastAdapter
+    private lateinit var movieCrew: RecyclerView
+    private lateinit var movieCrewAdapter: CrewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +51,51 @@ class MovieDetailsDisplay : AppCompatActivity() {
         viewModel.movieDetails.observe(this, Observer {
             bindToUI(it)
         })
+
+        //TO DISPLAY CAST IN RECYCLER VIEW/////////////
+        movieCast = findViewById(R.id.rv_cast)
+        movieCast.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        )
+
+        movieCastAdapter = CastAdapter(listOf())
+        movieCast.adapter = movieCastAdapter
+
+        HorrorMovieRepository.getCast(
+                movieId,
+                onSuccess = ::onCastFetched,
+                onError = :: onError
+        )
+
+        ///////////////////////////////////////////////
+
+        //TO DISPLAY Crew IN RECYCLER VIEW/////////////
+        movieCrew = findViewById(R.id.rv_crew)
+        movieCrew.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
+        movieCrewAdapter = CrewAdapter(listOf())
+        movieCrew.adapter = movieCrewAdapter
+
+        HorrorMovieRepository.getCrew(
+            movieId,
+            onSuccess = ::onCrewFetched,
+            onError = :: onError
+        )
+
+        ///////////////////////////////////////////////
+
+
+
+    }
+
+    private fun onError(){
+        Toast.makeText(this, getString(R.string.error_fetch_movies), Toast.LENGTH_SHORT).show()
     }
 
     fun bindToUI(it: SpecificMovieDetail){
@@ -74,7 +127,15 @@ class MovieDetailsDisplay : AppCompatActivity() {
             .transform(CenterCrop())
             .into(foreground_image)
 
-        Log.d("DisplayActivity", "Movies: $it")
+        Log.d("movie_details", "Movies: $it")
+    }
+
+    private fun onCastFetched(cast: List<Cast>) {
+        movieCastAdapter.updateMovies(cast)
+    }
+
+    private fun onCrewFetched(crew: List<Crew>) {
+        movieCrewAdapter.updateMovies(crew)
     }
 
     private fun getViewModel(movieId : Int) : MovieDetailsViewModel{

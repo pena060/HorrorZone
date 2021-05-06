@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.R
+import com.example.kmdb.models.Cast
 import com.example.kmdb.models.Movie
 import kotlinx.android.synthetic.main.display_movie_main.view.*
 
@@ -51,6 +52,7 @@ class HorrorMoviesAdapter (
             itemView.setOnClickListener { movieClicked.invoke(movie) }
         }
     }
+
     //amount of results that will be displayed
     override fun getItemCount(): Int = movies.size
 
