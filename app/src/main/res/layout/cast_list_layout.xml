@@ -23,6 +23,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="40dp"
         android:text="Name Character"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/actor_portrait"
         app:layout_constraintTop_toTopOf="parent" />
