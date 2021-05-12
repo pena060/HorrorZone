@@ -20,8 +20,7 @@
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="330dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3">
@@ -33,7 +32,7 @@
 
             <LinearLayout
                 android:id="@+id/desc_layout"
-                android:layout_width="400dp"
+                android:layout_width="390dp"
                 android:layout_height="355dp"
                 android:background="@drawable/border"
                 android:orientation="vertical">
@@ -65,8 +64,8 @@
 
             <LinearLayout
                 android:id="@+id/cast_layout"
-                android:layout_width="400dp"
-                android:layout_height="355dp"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical">
 
@@ -93,8 +92,8 @@
 
             <LinearLayout
                 android:id="@+id/crew_layout"
-                android:layout_width="400dp"
-                android:layout_height="355dp"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical">
 
@@ -120,8 +119,8 @@
 
             <LinearLayout
                 android:id="@+id/img_layout"
-                android:layout_width="400dp"
-                android:layout_height="355dp"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical">
 
@@ -146,9 +145,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/rev_layout"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
+                android:orientation="vertical"
+                android:background="@drawable/borders2">
+
+                <TextView
+                    android:id="@+id/rev_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/eater"
+                    android:text="User Reviews:"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_reviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/videos_layout"
-                android:layout_width="400dp"
-                android:layout_height="355dp"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical">
 
@@ -167,15 +189,14 @@
                     android:id="@+id/rv_videos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/borders2" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/details_layout"
-                android:layout_width="400dp"
-                android:layout_height="355dp"
+                android:layout_width="390dp"
+                android:layout_height="330dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical"
                 android:visibility="visible">

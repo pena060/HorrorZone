@@ -236,4 +236,31 @@ object HorrorMovieRepository {
 
     }
 
+    //get reviews from repository
+    fun getReviews(movieId: Int, page: Int = 1,onSuccess: (reviews: List<Review>) -> Unit, onError: () -> Unit) {
+        makeQueryToTMDB.getReviews(id = movieId, page = page)
+                .enqueue(object : Callback<ReviewsQueryResponse> {
+                    override fun onResponse(
+                            call: Call<ReviewsQueryResponse>,
+                            response: Response<ReviewsQueryResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                onSuccess.invoke(responseBody.reviews)
+                            } else {
+                                onError.invoke()
+                            }
+                        } else {
+                            onError.invoke()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ReviewsQueryResponse>, t: Throwable) {
+                        onError.invoke()
+                    }
+                })
+
+    }
+
 }

@@ -30,7 +30,7 @@ class VideoAdapter (
             private val videoLink : TextView = itemView.findViewById(R.id.link_us_watch)
             private val videoName : TextView = itemView.findViewById(R.id.us_header)
             fun bind(video: Video) {
-                    videoName.text = video.videoName
+                    videoName.text = video.videoName + ":"
                     videoLink.text = "https://www.youtube.com/watch?v=" + video.key
             }
         }

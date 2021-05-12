@@ -21,6 +21,7 @@ class MovieDetailsRepo(private val apiService : MakeQueryToTMDB) {
         return movieDetailsNetworkData.downloadedMovieResponse
     }
 
+
     fun getMovieDetailsNetwork(): LiveData<CurrentNetworkState>{
         return movieDetailsNetworkData.networkState
     }

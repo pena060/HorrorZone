@@ -3,7 +3,7 @@ package com.example.kmdb
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +15,8 @@ import com.example.kmdb.models.Movie
 
 //this activity displays the main homepage for the app displaying horror movies as a list
 class HomeActivity : AppCompatActivity(){
+
+
     //variables used for Now Playing recycler view
     private lateinit var  NowPlayingMovies : RecyclerView
     private lateinit var  NowPlayingMoviesAdapter : HorrorMoviesAdapter
@@ -43,6 +45,7 @@ class HomeActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homeactivitylayout)
+
 
         //LayoutManager/Adapter for Now Playing recycler view
         NowPlayingMovies = findViewById(R.id.rv_now_playing)
@@ -208,6 +211,7 @@ class HomeActivity : AppCompatActivity(){
             }
         })
     }
+
 
     //this function sends the user to the MovieDetailsActivity when they tap on a movie poster
     private fun goToMovieDetailsActivity(movie: Movie){

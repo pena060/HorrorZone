@@ -1,5 +1,6 @@
 package com.example.kmdb.MovieDetailsCode
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -42,6 +43,11 @@ class MovieDetailsDisplay : AppCompatActivity() {
     private lateinit var movieImg: RecyclerView
     private lateinit var movieImgAdapter: ImageAdapter
 
+    //variables used for review recycler view
+    private lateinit var  RevMovies : RecyclerView
+    private lateinit var  RevMoviesAdapter : ReviewAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
@@ -50,13 +56,15 @@ class MovieDetailsDisplay : AppCompatActivity() {
        movieId = intent.getIntExtra("id", 1)
 
 
-        //get  movie details using apiServices
+
+        //get movie details using apiServices
         val apiService : MakeQueryToTMDB = TheMovieDBClient.getClient()
         movieRepo = MovieDetailsRepo(apiService)
         viewModel = getViewModel(movieId)
         viewModel.movieDetails.observe(this, Observer {
             bindToUI(it)
         })
+
 
         //TO DISPLAY CAST IN RECYCLER VIEW/////////////
         movieCast = findViewById(R.id.rv_cast)
@@ -136,15 +144,36 @@ class MovieDetailsDisplay : AppCompatActivity() {
 
         ///////////////////////////////////////////////
 
+        //TO DISPLAY REVIEWS IN RECYCLER VIEW/////////////
+        RevMovies = findViewById(R.id.rv_reviews)
+        RevMovies.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        )
+
+        RevMoviesAdapter = ReviewAdapter(listOf())
+        RevMovies.adapter = RevMoviesAdapter
+
+        HorrorMovieRepository.getReviews(
+                movieId,
+                onSuccess = ::onRevFetched,
+                onError = :: onError
+        )
+
+        ///////////////////////////////////////////////
+
+
 
     }
+
 
     //display error message when connection is not available
     private fun onError(){
         Toast.makeText(this, getString(R.string.error_fetch_movies), Toast.LENGTH_SHORT).show()
     }
 
-    //bind al;l movie details to the layout ui
+    //bind all movie details to the layout ui
     fun bindToUI(it: SpecificMovieDetail){
         movie_title_display.text = it.title
         movie_rating.rating = it.vote_average/2f
@@ -197,6 +226,11 @@ class MovieDetailsDisplay : AppCompatActivity() {
     //fetch images
     private fun onImgFetched(images: List<Image>) {
         movieImgAdapter.updateMovies(images)
+    }
+
+    //fetch reviews
+    private fun onRevFetched(reviews: List<Review>) {
+        RevMoviesAdapter.updateMovies(reviews)
     }
 
 

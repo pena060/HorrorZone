@@ -75,16 +75,13 @@ interface MakeQueryToTMDB {
             @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f"
     ): Call<ImagesQueryResponse>
 
-
-
-
-/*    //search for movies
-    @GET("search/movie?with_genres=27")
-    fun  getSearchMovie(
+    //get Reviews for specific movie
+    @GET("movie/{movie_id}/reviews?")
+    fun  getReviews(
+            @Path("movie_id") id: Int,
             @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f",
-            @Query ("query") query : String,
             @Query ("page") page : Int
-    ): Call<MovieQueryResponse>*/
+    ): Call<ReviewsQueryResponse>
 
 
 }
