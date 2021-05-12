@@ -34,12 +34,14 @@ class CrewAdapter (
         private val jobName : TextView = itemView.findViewById(R.id.name_character)
         private val crewName : TextView = itemView.findViewById(R.id.actor_name)
         fun bind(crew: Crew) {
-            Glide.with(itemView)
-                .load("https://image.tmdb.org/t/p/w342${crew.crew_profile_path}")
-                .placeholder(R.mipmap.no_image)
-                .error(R.mipmap.no_image_available)
-                .transform(CenterCrop())
-                .into(poster)
+            Glide
+                    .with(itemView)
+                    .load("https://image.tmdb.org/t/p/h632${crew.crew_profile_path}")
+                    .fallback(R.drawable.profile_picture_icon_7)
+                    .placeholder(R.drawable.profile_picture_icon_7)
+                    .error(R.drawable.profile_picture_icon_7)
+                    .transform(CenterCrop())
+                    .into(poster)
 
 
             jobName.text = crew.crew_job

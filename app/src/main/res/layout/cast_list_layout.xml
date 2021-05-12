@@ -13,6 +13,7 @@
         android:id="@+id/actor_portrait"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

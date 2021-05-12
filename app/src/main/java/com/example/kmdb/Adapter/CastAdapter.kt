@@ -34,10 +34,12 @@ class CastAdapter (
             private val characterName : TextView = itemView.findViewById(R.id.name_character)
             private val actorName : TextView = itemView.findViewById(R.id.actor_name)
             fun bind(cast: Cast) {
-                Glide.with(itemView)
-                        .load("https://image.tmdb.org/t/p/w342${cast.cast_profile_path}")
-                        .placeholder(R.mipmap.no_image)
-                        .error(R.mipmap.no_image_available)
+                Glide
+                        .with(itemView)
+                        .load("https://image.tmdb.org/t/p/h632${cast.cast_profile_path}")
+                        .fallback(R.drawable.profile_picture_icon_7)
+                        .placeholder(R.drawable.profile_picture_icon_7)
+                        .error(R.drawable.profile_picture_icon_7)
                         .transform(CenterCrop())
                         .into(poster)
 

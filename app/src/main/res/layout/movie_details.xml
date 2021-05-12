@@ -353,8 +353,8 @@
         android:id="@+id/poster_image"
         android:layout_width="145dp"
         android:layout_height="220dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="68dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@mipmap/no_poster" />

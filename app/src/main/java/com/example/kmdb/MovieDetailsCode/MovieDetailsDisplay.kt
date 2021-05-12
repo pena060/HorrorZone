@@ -44,15 +44,14 @@ class MovieDetailsDisplay : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
 
+        //get movieId from HomeActivity
        movieId = intent.getIntExtra("id", 1)
 
 
-
+        //get  movie details using apiServices
         val apiService : MakeQueryToTMDB = TheMovieDBClient.getClient()
         movieRepo = MovieDetailsRepo(apiService)
-
         viewModel = getViewModel(movieId)
-
         viewModel.movieDetails.observe(this, Observer {
             bindToUI(it)
         })
@@ -138,10 +137,12 @@ class MovieDetailsDisplay : AppCompatActivity() {
 
     }
 
+    //display error message when connection is not available
     private fun onError(){
         Toast.makeText(this, getString(R.string.error_fetch_movies), Toast.LENGTH_SHORT).show()
     }
 
+    //bind al;l movie details to the layout ui
     fun bindToUI(it: SpecificMovieDetail){
         movie_title_display.text = it.title
         movie_rating.rating = it.vote_average/2f
@@ -159,39 +160,46 @@ class MovieDetailsDisplay : AppCompatActivity() {
 
         val moviePosterURL = POSTER_BASE_URL + it.poster_path
             Glide.with(this)
-                .load(moviePosterURL)
-                .transform(CenterCrop())
-                .into(poster_image)
+                    .load(moviePosterURL)
+                    .placeholder(R.mipmap.no_poster)
+                    .error(R.mipmap.no_poster)
+                    .transform(CenterCrop())
+                    .into(poster_image)
 
         val movieForeGURL = FOREGROUND_BASE_URL + it.backdrop_path
         Glide.with(this)
-            .load(movieForeGURL)
-            .placeholder(R.mipmap.no_image)
-            .error(R.mipmap.no_image)
-            .transform(CenterCrop())
-            .into(foreground_image)
+                .load(movieForeGURL)
+                .placeholder(R.mipmap.no_image)
+                .error(R.mipmap.no_image)
+                .transform(CenterCrop())
+                .into(foreground_image)
 
         Log.d("movie_details", "Movies: $it")
     }
 
+    //fetch cast info
     private fun onCastFetched(cast: List<Cast>) {
         movieCastAdapter.updateMovies(cast)
     }
 
+    //fetch crew info
     private fun onCrewFetched(crew: List<Crew>) {
         movieCrewAdapter.updateMovies(crew)
     }
 
+    //fetch videos info (links)
     private fun onVidFetched(trailers: List<Video>) {
         movieVidAdapter.updateMovies(trailers)
     }
 
+    //fetch images
     private fun onImgFetched(images: List<Image>) {
         movieImgAdapter.updateMovies(images)
     }
 
 
 
+    //function used for viewmodel used in movie details
     private fun getViewModel(movieId : Int) : MovieDetailsViewModel{
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -46,6 +46,8 @@ class HorrorMoviesAdapter (
         fun bindMoviesToAdapter(movie: Movie){
             Glide.with(itemView)
                 .load("https://image.tmdb.org/t/p/w342${movie.poster_path}")
+                    .placeholder(R.mipmap.no_poster)
+                    .error(R.mipmap.no_poster)
                 .transform(CenterCrop())
                 .into(poster)
             //invoke model class movie when movie poster is clicked
