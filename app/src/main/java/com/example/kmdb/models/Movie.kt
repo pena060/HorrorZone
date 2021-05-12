@@ -12,5 +12,6 @@ data class Movie(
     @SerializedName("poster_path") val poster_path : String,
     @SerializedName("results") val movies: List<Movie>,
     @SerializedName("page") val page: Int,
-    @SerializedName("total_pages") val pages: Int
+    @SerializedName("total_pages") val pages: Int,
+    @SerializedName("title") val name : String,
     )

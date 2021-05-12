@@ -262,5 +262,31 @@ object HorrorMovieRepository {
                 })
 
     }
+    //get reviews from repository
+    fun SearchMovies(page: Int = 1,onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit) {
+        makeQueryToTMDB.Search(page = page)
+            .enqueue(object : Callback<MovieQueryResponse> {
+                override fun onResponse(
+                    call: Call<MovieQueryResponse>,
+                    response: Response<MovieQueryResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            onSuccess.invoke(responseBody.movies)
+                        } else {
+                            onError.invoke()
+                        }
+                    } else {
+                        onError.invoke()
+                    }
+                }
+
+                override fun onFailure(call: Call<MovieQueryResponse>, t: Throwable) {
+                    onError.invoke()
+                }
+            })
+
+    }
 
 }

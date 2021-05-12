@@ -46,6 +46,12 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.homeactivitylayout)
 
+        val search_btn = findViewById<Button>(R.id.srch_mv_btn)
+
+        search_btn.setOnClickListener{
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+        }
 
         //LayoutManager/Adapter for Now Playing recycler view
         NowPlayingMovies = findViewById(R.id.rv_now_playing)

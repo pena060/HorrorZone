@@ -2,6 +2,7 @@ package com.example.kmdb.MovieDetailsCode
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,6 @@ import java.util.*
 
 //used to store movieId
 var movieId = 0
-
 //this activity displays a specific movies details
 class MovieDetailsDisplay : AppCompatActivity() {
 
@@ -47,14 +47,12 @@ class MovieDetailsDisplay : AppCompatActivity() {
     private lateinit var  RevMovies : RecyclerView
     private lateinit var  RevMoviesAdapter : ReviewAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
 
         //get movieId from HomeActivity
        movieId = intent.getIntExtra("id", 1)
-
 
 
         //get movie details using apiServices
@@ -80,7 +78,7 @@ class MovieDetailsDisplay : AppCompatActivity() {
         HorrorMovieRepository.getCast(
                 movieId,
                 onSuccess = ::onCastFetched,
-                onError = :: onError
+                onError = ::onError
         )
 
         ///////////////////////////////////////////////
@@ -88,18 +86,18 @@ class MovieDetailsDisplay : AppCompatActivity() {
         //TO DISPLAY Crew IN RECYCLER VIEW/////////////
         movieCrew = findViewById(R.id.rv_crew)
         movieCrew.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
         )
 
         movieCrewAdapter = CrewAdapter(listOf())
         movieCrew.adapter = movieCrewAdapter
 
         HorrorMovieRepository.getCrew(
-            movieId,
-            onSuccess = ::onCrewFetched,
-            onError = :: onError
+                movieId,
+                onSuccess = ::onCrewFetched,
+                onError = ::onError
         )
 
         ///////////////////////////////////////////////
@@ -118,7 +116,7 @@ class MovieDetailsDisplay : AppCompatActivity() {
         HorrorMovieRepository.getTrailer(
                 movieId,
                 onSuccess = ::onVidFetched,
-                onError = :: onError
+                onError = ::onError
         )
 
         ///////////////////////////////////////////////
@@ -139,7 +137,7 @@ class MovieDetailsDisplay : AppCompatActivity() {
         HorrorMovieRepository.getImages(
                 movieId,
                 onSuccess = ::onImgFetched,
-                onError = :: onError
+                onError = ::onError
         )
 
         ///////////////////////////////////////////////
@@ -158,7 +156,7 @@ class MovieDetailsDisplay : AppCompatActivity() {
         HorrorMovieRepository.getReviews(
                 movieId,
                 onSuccess = ::onRevFetched,
-                onError = :: onError
+                onError = ::onError
         )
 
         ///////////////////////////////////////////////
@@ -236,7 +234,7 @@ class MovieDetailsDisplay : AppCompatActivity() {
 
 
     //function used for viewmodel used in movie details
-    private fun getViewModel(movieId : Int) : MovieDetailsViewModel{
+    private fun getViewModel(movieId: Int) : MovieDetailsViewModel{
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
@@ -244,5 +242,6 @@ class MovieDetailsDisplay : AppCompatActivity() {
             }
         })[MovieDetailsViewModel::class.java]
     }
+
 
 }

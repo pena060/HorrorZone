@@ -33,6 +33,7 @@ class ImageAdapter (
             fun bind(image: Image) {
                 Glide.with(itemView)
                         .load("https://image.tmdb.org/t/p/w1280${image.image_path}")
+                        .fallback(R.mipmap.no_image)
                         .placeholder(R.mipmap.no_image)
                         .error(R.mipmap.no_image_available)
                         .transform(CenterCrop())
