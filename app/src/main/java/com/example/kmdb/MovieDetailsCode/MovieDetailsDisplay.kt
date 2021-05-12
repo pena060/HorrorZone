@@ -13,14 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.API.MakeQueryToTMDB
-import com.example.kmdb.Adapter.CastAdapter
-import com.example.kmdb.Adapter.CrewAdapter
-import com.example.kmdb.Adapter.HorrorMoviesAdapter
+import com.example.kmdb.Adapter.*
 import com.example.kmdb.R
 import com.example.kmdb.Repos.HorrorMovieRepository
 import com.example.kmdb.Repos.MovieDetailsRepo
 import com.example.kmdb.models.*
-import io.reactivex.internal.util.HalfSerializer.onError
 import kotlinx.android.synthetic.main.movie_details.*
 import java.text.NumberFormat
 import java.util.*
@@ -32,16 +29,24 @@ class MovieDetailsDisplay : AppCompatActivity() {
     //initialize a viewmodel and repo that will be used in this activity
     private lateinit var viewModel: MovieDetailsViewModel
     private lateinit var movieRepo : MovieDetailsRepo
+
+    //adapters and recycler view initialization
     private lateinit var movieCast: RecyclerView
     private lateinit var movieCastAdapter: CastAdapter
     private lateinit var movieCrew: RecyclerView
     private lateinit var movieCrewAdapter: CrewAdapter
+    private lateinit var movieVid: RecyclerView
+    private lateinit var movieVidAdapter: VideoAdapter
+    private lateinit var movieImg: RecyclerView
+    private lateinit var movieImgAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
 
        movieId = intent.getIntExtra("id", 1)
+
+
 
         val apiService : MakeQueryToTMDB = TheMovieDBClient.getClient()
         movieRepo = MovieDetailsRepo(apiService)
@@ -90,6 +95,45 @@ class MovieDetailsDisplay : AppCompatActivity() {
 
         ///////////////////////////////////////////////
 
+        //TO DISPLAY VIDEOS IN RECYCLER VIEW/////////////
+        movieVid = findViewById(R.id.rv_videos)
+        movieVid.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        )
+
+        movieVidAdapter = VideoAdapter(listOf())
+        movieVid.adapter = movieVidAdapter
+
+        HorrorMovieRepository.getTrailer(
+                movieId,
+                onSuccess = ::onVidFetched,
+                onError = :: onError
+        )
+
+        ///////////////////////////////////////////////
+
+        ///////////////////////////////////////////////
+
+        //TO DISPLAY IMAGES IN RECYCLER VIEW/////////////
+        movieImg = findViewById(R.id.rv_images)
+        movieImg.layoutManager = LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        )
+
+        movieImgAdapter = ImageAdapter(listOf())
+        movieImg.adapter = movieImgAdapter
+
+        HorrorMovieRepository.getImages(
+                movieId,
+                onSuccess = ::onImgFetched,
+                onError = :: onError
+        )
+
+        ///////////////////////////////////////////////
 
 
     }
@@ -137,6 +181,16 @@ class MovieDetailsDisplay : AppCompatActivity() {
     private fun onCrewFetched(crew: List<Crew>) {
         movieCrewAdapter.updateMovies(crew)
     }
+
+    private fun onVidFetched(trailers: List<Video>) {
+        movieVidAdapter.updateMovies(trailers)
+    }
+
+    private fun onImgFetched(images: List<Image>) {
+        movieImgAdapter.updateMovies(images)
+    }
+
+
 
     private fun getViewModel(movieId : Int) : MovieDetailsViewModel{
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {

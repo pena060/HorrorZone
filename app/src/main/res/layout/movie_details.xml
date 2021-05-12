@@ -32,8 +32,9 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="410dp"
-                android:layout_height="match_parent"
+                android:id="@+id/desc_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
                 android:background="@drawable/border"
                 android:orientation="vertical">
 
@@ -57,13 +58,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
                     android:text="-"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="410dp"
-                android:layout_height="345dp"
+                android:id="@+id/cast_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
                 android:background="@drawable/borders2"
                 android:orientation="vertical">
 
@@ -82,13 +85,17 @@
                     android:id="@+id/rv_cast"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/borders2"
                     android:fitsSystemWindows="true" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="410dp"
-                android:layout_height="345dp"
+                android:id="@+id/crew_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
+                android:background="@drawable/borders2"
                 android:orientation="vertical">
 
                 <TextView
@@ -96,6 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/eater"
                     android:text="CREW:"
                     android:textColor="@color/colorAccent"
@@ -104,13 +112,71 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_crew"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/borders2" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="410dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/border"
+                android:id="@+id/img_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
+                android:background="@drawable/borders2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/images_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/eater"
+                    android:text="IMAGES:"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/borders2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/videos_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
+                android:background="@drawable/borders2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/vid_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/eater"
+                    android:text="Videos/Trailers:"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/borders2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/details_layout"
+                android:layout_width="400dp"
+                android:layout_height="355dp"
+                android:background="@drawable/borders2"
                 android:orientation="vertical"
                 android:visibility="visible">
 

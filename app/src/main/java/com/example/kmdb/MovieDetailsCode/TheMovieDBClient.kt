@@ -12,8 +12,6 @@ const val API_KEY = "28d979e940b6fe72b65e85d6eb5ea77f"
 const val BASE_URL = "https://api.themoviedb.org/3/"
 const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 const val FOREGROUND_BASE_URL = "https://image.tmdb.org/t/p/w1280"
-const val FIRST_PAGE = 1
-const val POST_PER_PAGE = 20
 
 //TMDB client that will be used specifically to handle the query, requests. and responses for displaying movie details (using interface)
 object TheMovieDBClient {

@@ -2,13 +2,9 @@ package com.example.kmdb.Repos
 
 import android.util.Log
 import com.example.kmdb.API.MakeQueryToTMDB
-import com.example.kmdb.MovieDetailsCode.movieId
 import com.example.kmdb.models.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import javax.crypto.Cipher.SECRET_KEY
-
 
 object HorrorMovieRepository {
 
@@ -156,7 +152,7 @@ object HorrorMovieRepository {
 
     }
 
-    fun getCrew(movieId: Int, onSuccess: (cast: List<Crew>) -> Unit, onError: () -> Unit) {
+    fun getCrew(movieId: Int, onSuccess: (crew: List<Crew>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getMovieCrewDetails(id = movieId)
             .enqueue(object : Callback<CreditsDetailsCrew> {
                 override fun onResponse(
@@ -182,4 +178,60 @@ object HorrorMovieRepository {
             })
 
     }
+
+
+    fun getTrailer(movieId: Int, onSuccess: (video: List<Video>) -> Unit, onError: () -> Unit) {
+        makeQueryToTMDB.getVideo(id = movieId)
+                .enqueue(object : Callback<VideoQueryResponse> {
+                    override fun onResponse(
+                            call: Call<VideoQueryResponse>,
+                            response: Response<VideoQueryResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                onSuccess.invoke(responseBody.videos)
+                                Log.d("TEST", "Movies: ${responseBody.videos}")
+                            } else {
+                                onError.invoke()
+                            }
+                        } else {
+                            onError.invoke()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<VideoQueryResponse>, t: Throwable) {
+                        onError.invoke()
+                    }
+                })
+
+    }
+
+
+    fun getImages(movieId: Int, onSuccess: (image: List<Image>) -> Unit, onError: () -> Unit) {
+        makeQueryToTMDB.getImages(id = movieId)
+                .enqueue(object : Callback<ImagesQueryResponse> {
+                    override fun onResponse(
+                            call: Call<ImagesQueryResponse>,
+                            response: Response<ImagesQueryResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                onSuccess.invoke(responseBody.backdrop_list)
+                            } else {
+                                onError.invoke()
+                            }
+                        } else {
+                            onError.invoke()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ImagesQueryResponse>, t: Throwable) {
+                        onError.invoke()
+                    }
+                })
+
+    }
+
 }
