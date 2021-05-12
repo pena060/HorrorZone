@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kmdb.R
 import com.example.kmdb.models.Review
 
+//this adapter will be used with the review recycler view
 class ReviewAdapter (
     private var reviews: List<Review>
     ) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
