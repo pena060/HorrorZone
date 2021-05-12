@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.R
 import com.example.kmdb.models.Crew
 
-
+//this adapter will be used with the crew member recycler view
 class CrewAdapter (
     private var crew: List<Crew>
 ) : RecyclerView.Adapter<CrewAdapter.CrewViewHolder>() {

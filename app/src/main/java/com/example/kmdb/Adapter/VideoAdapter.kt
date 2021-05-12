@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kmdb.R
 import com.example.kmdb.models.Video
 
+//this adapter will be used with the videos recycler view
 class VideoAdapter (
     private var video: List<Video>
     ) : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {

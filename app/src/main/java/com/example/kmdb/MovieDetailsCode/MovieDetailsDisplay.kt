@@ -22,8 +22,10 @@ import kotlinx.android.synthetic.main.movie_details.*
 import java.text.NumberFormat
 import java.util.*
 
+//used to store movieId
 var movieId = 0
 
+//this activity displays a specific movies details
 class MovieDetailsDisplay : AppCompatActivity() {
 
     //initialize a viewmodel and repo that will be used in this activity

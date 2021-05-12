@@ -45,7 +45,7 @@ object HorrorMovieRepository {
                 })
     }
 
-    //get now playing movies from repository
+    //get upcoming movies from repository
     fun getUpcomingMovies(page: Int = 1, onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getUpcomingMovies(page = page)
                 .enqueue(object : Callback<MovieQueryResponse> {
@@ -125,6 +125,7 @@ object HorrorMovieRepository {
     }
 
 
+    //get cast from repository
     fun getCast(movieId: Int, onSuccess: (cast: List<Cast>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getMovieCastDetails(id = movieId)
                 .enqueue(object : Callback<CreditsDetailsCast> {
@@ -152,6 +153,7 @@ object HorrorMovieRepository {
 
     }
 
+    //get crew from repository
     fun getCrew(movieId: Int, onSuccess: (crew: List<Crew>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getMovieCrewDetails(id = movieId)
             .enqueue(object : Callback<CreditsDetailsCrew> {
@@ -179,7 +181,7 @@ object HorrorMovieRepository {
 
     }
 
-
+    //get trailer/videos from repository
     fun getTrailer(movieId: Int, onSuccess: (video: List<Video>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getVideo(id = movieId)
                 .enqueue(object : Callback<VideoQueryResponse> {
@@ -207,7 +209,7 @@ object HorrorMovieRepository {
 
     }
 
-
+    //get images from repository
     fun getImages(movieId: Int, onSuccess: (image: List<Image>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.getImages(id = movieId)
                 .enqueue(object : Callback<ImagesQueryResponse> {

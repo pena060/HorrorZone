@@ -12,6 +12,7 @@ import com.example.kmdb.R
 import com.example.kmdb.models.Cast
 import kotlinx.android.synthetic.main.movie_details.*
 
+//this adapter will be used with the cast member recycler view
 class CastAdapter (
     private var cast: List<Cast>
     ) : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {

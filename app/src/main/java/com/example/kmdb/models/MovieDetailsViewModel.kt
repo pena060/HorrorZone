@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kmdb.Repos.MovieDetailsRepo
 import io.reactivex.disposables.CompositeDisposable
 
+//view model used for all movie details
 class MovieDetailsViewModel(private val movieRepo : MovieDetailsRepo, movieId : Int): ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 

@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.R
 import com.example.kmdb.models.Image
 
-
+//this adapter will be used with the images recycler view
 class ImageAdapter (
     private var image: List<Image>
     ) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
