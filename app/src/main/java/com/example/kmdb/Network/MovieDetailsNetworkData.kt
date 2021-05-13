@@ -26,14 +26,6 @@ class MovieDetailsNetworkData (private val apiService: MakeQueryToTMDB, private 
         val downloadedMovieResponse : LiveData<SpecificMovieDetail>
         get() = _downloadMovieDetailsResponse
 
-    private val _downloadMovieCastResponse = MutableLiveData<CreditsDetailsCast>()
-    val downloadedMovieCastResponse : LiveData<CreditsDetailsCast>
-        get() = _downloadMovieCastResponse
-
-    private val _downloadMovieCrewResponse = MutableLiveData<CreditsDetailsCrew>()
-    val downloadedMovieCrewResponse : LiveData<CreditsDetailsCrew>
-        get() = _downloadMovieCrewResponse
-
     fun fetchMovieDetails(movieId : Int){
         _networkState.postValue(CurrentNetworkState.LOADING)
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -38,6 +39,7 @@ class SearchAdapter (
             this.itemModelListFilter.addAll(movies)
             notifyDataSetChanged()
             notifyItemRangeInserted(this.movies.size, movies.size - 1)
+            notifyItemRangeInserted(this.itemModelListFilter.size, movies.size - 1)
         }
 
 
@@ -53,6 +55,7 @@ class SearchAdapter (
                     .error(R.mipmap.no_poster)
                     .transform(CenterCrop())
                     .into(poster)
+
                 //invoke model class movie when movie poster is clicked
                 itemView.setOnClickListener { movieClicked.invoke(movie) }
             }
@@ -74,7 +77,7 @@ class SearchAdapter (
                     var searchChr =  charsequence.toString()
                     val itemModel = ArrayList<Movie>()
                     for (item in itemModelListFilter){
-                        if(item.name.contains(searchChr)){
+                        if(item.name.contains(searchChr, ignoreCase = true)){
                             itemModel.add(item)
                         }
                     }
@@ -86,7 +89,7 @@ class SearchAdapter (
 
             override fun publishResults(constraint: CharSequence?, filterResults: FilterResults?) {
                 if (filterResults != null) {
-                    movies = filterResults.values as MutableList<Movie>
+                    movies = filterResults.values as ArrayList<Movie>
                 }
                 notifyDataSetChanged()
             }

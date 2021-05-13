@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -16,9 +17,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.API.MakeQueryToTMDB
 import com.example.kmdb.Adapter.*
+import com.example.kmdb.HomeActivity
 import com.example.kmdb.R
 import com.example.kmdb.Repos.HorrorMovieRepository
 import com.example.kmdb.Repos.MovieDetailsRepo
+import com.example.kmdb.SearchActivity
 import com.example.kmdb.models.*
 import kotlinx.android.synthetic.main.movie_details.*
 import java.text.NumberFormat
@@ -50,6 +53,14 @@ class MovieDetailsDisplay : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details)
+
+
+        val back_btn = findViewById<Button>(R.id.back_btn_details)
+
+        back_btn.setOnClickListener{
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
 
         //get movieId from HomeActivity
        movieId = intent.getIntExtra("id", 1)
