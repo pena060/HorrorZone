@@ -83,7 +83,7 @@ interface MakeQueryToTMDB {
             @Query ("page") page : Int
     ): Call<ReviewsQueryResponse>
 
-    //get Reviews for specific movie
+    //get all movies
     @GET("discover/movie?&with_genres=27&without_genres=10751")
     fun  Search(
         @Query("api_key") apiKey: String = "28d979e940b6fe72b65e85d6eb5ea77f",

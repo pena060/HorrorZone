@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.kmdb.R
 import com.example.kmdb.models.Movie
 
+//this adapter will be used with the search/allmovies recycler view
 class SearchAdapter (
     private var movies: MutableList<Movie>,
     private val movieClicked: (movie : Movie) -> Unit

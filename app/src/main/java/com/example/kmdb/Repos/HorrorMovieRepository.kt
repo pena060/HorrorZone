@@ -262,7 +262,7 @@ object HorrorMovieRepository {
                 })
 
     }
-    //get reviews from repository
+    //get all movies/search from repository
     fun SearchMovies(page: Int = 1,onSuccess: (movies: List<Movie>) -> Unit, onError: () -> Unit) {
         makeQueryToTMDB.Search(page = page)
             .enqueue(object : Callback<MovieQueryResponse> {

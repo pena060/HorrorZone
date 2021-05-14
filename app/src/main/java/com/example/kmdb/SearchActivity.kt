@@ -35,24 +35,24 @@ class SearchActivity : AppCompatActivity() {
         }
 
 
-        //LayoutManager/Adapter for Now Playing recycler view
+        //LayoutManager/Adapter for all movies/search recycler view
         AllMovies = findViewById(R.id.rv_search)
         AlayoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
         AllMovies.layoutManager = AlayoutManager
         AllMoviesAdapter = SearchAdapter(mutableListOf()) { movie -> goToMovieDetailsActivity(movie) }
         AllMovies.adapter = AllMoviesAdapter
 
-        //get Now Playing function
+        //get all movies function
         getAMovies()
     }
 
-    //get Now Playing fetched movies
+    //get all fetched movies
     private fun onAllFetched(movies: List<Movie>){
         AllMoviesAdapter.getHorrorMovies(movies)
         appendSMoviesToScrollListener()
     }
 
-    //adds now playing movies to scroll listener
+    //adds all movies to scroll listener
     private fun appendSMoviesToScrollListener(){
         AllMovies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -76,7 +76,7 @@ class SearchActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.error_fetch_movies), Toast.LENGTH_SHORT).show()
     }
 
-    //get Upcoming movies from repository object
+    //get all movies from repository object
     private fun getAMovies(){
         HorrorMovieRepository.SearchMovies(Apage, :: onAllFetched, :: onError)
     }
