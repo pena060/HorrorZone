@@ -1,0 +1,2 @@
+# HorrorZone
+Horror Movie Database app developed using Kotlin, TMDB APIs, and Android studio. This app allows users to browse thousands of horror movies and view details such as, description, reviews, box office data, screenshots, trailers, and visit websites. Users can also see Horror movies that are now playing in theaters, trending movies, most popular, and all time popular films. For movies now playing, the users can be redirected to purchase tickets. 
